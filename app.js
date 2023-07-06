@@ -1,15 +1,39 @@
-// npm init -y  para crear package.json
-// Se debe agregar al package.json type module
-import readline from 'node:readline';
+import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+const expressApp = express();
 
-rl.question('Ingrese el nombre?\n', (nombre)=>{
-    readline.cursorTo(process.stdout, 0, 1); //Posicion del cursor
-    readline.clearScreenDown(process.stdout); // Eliminar la linea de comando
-    console.log(`Nombre: ${nombre}`);
-    rl.close(); //Salir del todo el proceso
+/**
+ * *Configuración del middlewar
+ * ? Habilitamos la entrada de datos de tipo json y text*
+ * @var {express.json(), express.text()}
+ */
+
+expressApp.use(express.json());
+expressApp.use(express.text());
+
+expressApp.post('/campus/:nombre', (req, res) => {
+    /**
+     * ? Obtenemos los datos de entrada
+     * @var {req.body}*Datos enviados al cliente
+     * @var {req.query}*Datos enviados de la url
+     * @var {req.params}*
+     */
+
+    let obj={
+        DATA: req.body,
+        'URL-GET': req.query,
+        PARAMETROS: req.params
+    }
+    res.send(obj);
+})
+
+
+let config = {
+    hostname: "127.233.06",
+    port: 5510
+}
+expressApp.listen(config, ()=>{
+    console.log(`http://${config.hostname}:${config.port}/campus`);
 });
