@@ -30,10 +30,7 @@ expressApp.post('/campus/:nombre', (req, res) => {
 })
 
 
-let config = {
-    hostname: "127.233.06",
-    port: 5510
-}
+let config = JSON.parse(process.env.MY_CONFIG);
 expressApp.listen(config, ()=>{
     console.log(`http://${config.hostname}:${config.port}/campus`);
 });
